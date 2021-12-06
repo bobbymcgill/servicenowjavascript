@@ -1,16 +1,16 @@
 var vTableName = 'sc_recurring_rollup';
-var vDaysAgo = 7;
-PurgeAuditDeletedRecords(vTableName, vDaysAgo);
+var vDaysAgo = 45;
+PurgeAuditDeletedRecords(vDaysAgo);
 
-function PurgeAuditDeletedRecords(pTableName, pDaysAgo) {
+function PurgeAuditDeletedRecords(pDaysAgo) {
     
     // Set total number of records to delete and maximum size of each batch (recommend leaving this as 100)
     var pRecordsToDelete = parseInt(2000);
     var pBatchSize = parseInt(100);
     
     // Check table name and delta are set, generate encoded query, set up variables
-    if ((pTableName) && (pDaysAgo)) {
-        var v_encoded_query = 'sys_created_on<javascript:gs.daysAgoStart(' + pDaysAgo + ')^tablename=' + pTableName;
+    if (pDaysAgo) {
+        var v_encoded_query = 'sys_created_onRELATIVELT@dayofweek@ago@' + pDaysAgo ;
         var pDeleteCount = parseInt(0);
         
         // Loop deleting records
