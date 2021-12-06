@@ -50,7 +50,7 @@ function PurgeAuditDeletedRecords(pDaysAgo) {
         }
         
         // Log work done         
-        gs.log('Deleted ' + pDeleteCount + ' records for ' + pTableName + ' from sys_audit_delete (and related sys_audit_relation records)', 'PurgeAuditDeletedRecords');
+        gs.log('Deleted ' + pDeleteCount + ' records for  from sys_audit_delete (and related sys_audit_relation records)', 'PurgeAuditDeletedRecords');
 
     }
 }
