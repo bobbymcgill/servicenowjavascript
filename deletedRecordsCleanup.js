@@ -1,4 +1,4 @@
-var vTableName = 'sc_recurring_rollup';
+
 var vDaysAgo = 45;
 PurgeAuditDeletedRecords(vDaysAgo);
 
