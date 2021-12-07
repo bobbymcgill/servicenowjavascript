@@ -3,6 +3,11 @@ CherwellUtils.prototype = {
     initialize: function() {
     },
 
+    
+    buildJSON: function(change_sysid){
+
+    },
+
 	logger: function(msg){
 		gs.info('CherwellUtils Log: ' + msg);
 	},
