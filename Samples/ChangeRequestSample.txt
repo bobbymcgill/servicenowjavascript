@@ -1,0 +1,20 @@
+Title: ${short_description}
+Description: ${description}
+Change Type: ${type}
+ServiceNow Reference: ${number}
+Impact: ${impact}
+Urgency: ${priority}
+Urgency Justification: ${justification}
+Risk Assessment: ${risk}
+Risk Analysis: ${risk_impact_analysis} 
+Impact Assessment: ${risk_impact_analysis}
+Implementation Plan: ${implementation_plan}
+Backout plan: ${backout_plan}
+Communications Plan: ${u_communications_plan}
+Primary CI: Configuration item: ${cmdb_ci}
+Impacted Services/Cis: ${event.parm1}
+Requested By: ${requested_by}
+Requestor Email: ${requested_by.email}
+Planned start date: ${start_date}
+Planned end date: ${end_date}
+
