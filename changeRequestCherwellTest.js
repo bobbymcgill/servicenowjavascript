@@ -1,6 +1,6 @@
 // Querying the task_cmdb_ci_service table to find the related Service CIs to the change
 var taskGR = new GlideRecord('task_cmdb_ci_service');
-var fieldName = 'number';
+//var fieldName = 'number';
 //taskGR.addQuery('task.number', 'CHG0074936');
 taskGR.addQuery('task.number', current.number);
 taskGR.query();
