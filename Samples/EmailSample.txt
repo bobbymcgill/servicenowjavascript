@@ -1,8 +1,8 @@
 What's Happening?
 
-Title: Requested by customer - Add OT_PDMA Vlan and tag to ports on Access Switch for JRI sensors
+Title: test
 
-Description: OT Team requests to add OT_PDMA vlan to DSW and to one access switch, as well tag 2 ports to this new vlan where JRI sensors will be connected.
+Description: test
 
 
 
@@ -10,60 +10,43 @@ The Details:
 
 Change Type: Urgent
 
-ServiceNow Reference: CHG0095890
+ServiceNow Reference: CHG0094986
 
-Impact: 1 - Critical
+Impact: 3 - Medium
 
 Urgency: 2 - High
 
-Urgency Justification: This work falls under OT initiative.
-Vendor will be on site next week (December 13-17) to install JRI sensors, so the vlan and ports need to be configured by that time.
+Urgency Justification: test
 
-Risk Assessment: Low
+Risk Assessment: High
 
-Risk Analysis: Low since this is a new OT vlan, so there are no hosts running on it and onsite team will be assisting to confirm which ports are free to plug the JRI sensors. 
+Risk Analysis: test 
 
-Impact Assessment: Low since this is a new OT vlan, so there are no hosts running on it and onsite team will be assisting to confirm which ports are free to plug the JRI sensors.
+Impact Assessment: test
 
-Implementation Plan: Log into NAN60-MDFA1-DSW1.
-Add OT_PDMA Vlan.
-Tag the uplink to NAN60-MDFA1-ASW1 with OT_PDMA vlan.
+Implementation Plan: test
 
-Log into NAN60-MDFA1-ASW1
-Add OT_PDMA Vlan.
-Tag the uplink to NAN60-MDFA1-DSW1 with OT_PDMA vlan.
-Tag the requested ports with OT_PDMA vlan.
+Backout plan: test
 
-Backout plan: Log into NAN60-MDFA1-DSW1.
-Remove OT_PDMA Vlan.
-Untag the uplink to NAN60-MDFA1-ASW1 with OT_PDMA vlan.
+Communications Plan: test
 
-Log into NAN60-MDFA1-ASW1
-Remove OT_PDMA Vlan.
-Untag the uplink to NAN60-MDFA1-DSW1 with OT_PDMA vlan.
-Tag the requested ports with default vlan.
+Primary CI: Configuration item: Brazil South
 
-Communications Plan: Dylan Cassidy
-Sr. Information Security Analyst
-dylan.cassidy@mckesson.com
-+353 (86) 3756822
-
-Primary CI: Configuration item: nan60-mdfa1-dsw1
-
-Impacted Services/Cis: McKesson EU - France (Network),Global Network - Switch
+Impacted Services/Cis: Global Network - General Network,OneCloud>US>Unix/Linux,B2B Strategic e-Commerce Platform (Prod)
 
 
 
 Who's Affected?
 
-Requested By: Luis Josue Rodriguez
+Requested By: Vijay Mane
 
-Requestor Email: LuisJosue.Rodriguez@McKesson.com
+Requestor Email: Vijay.Mane@McKesson.com
 
 
 
 When is it Happening?
 
-Planned start date: 2021-12-10 09:00:00 PST
+Planned start date: 2021-12-11 10:57:31 PST
 
-Planned end date: 2021-12-10 09:30:00 PST
+Planned end date: 2021-12-12 10:57:38 PST
+
