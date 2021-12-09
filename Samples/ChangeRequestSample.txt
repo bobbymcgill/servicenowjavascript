@@ -1,20 +1,21 @@
-Title: ${current.short_description}
-Description: ${current.description}
-Change Type: ${current.type}
-ServiceNow Reference: ${current.number}
-Impact: ${current.impact}
-Urgency: ${current.priority}
-Urgency Justification: ${current.justification}
-Risk Assessment: ${current.risk}
-Risk Analysis: ${current.risk_impact_analysis}
-Impact Assessment: ${current.risk_impact_analysis}
-Implementation Plan: ${current.implementation_plan}
-Backout plan: ${current.backout_plan}
-Communications Plan: ${current.u_communications_plan}
-Primary CI: Configuration item: ${current.cmdb_ci}
-Impacted Services/Cis: ${current.event.parm1}
-Requested By: ${current.requested_by}
-Requestor Email: ${current.requested_by.email}
-Planned start date: ${current.start_date}
-Planned end date: ${current.end_date}
-
+{
+   "Title": ${current.short_description},
+    "Description": ${current.description},
+    "Change Type": ${current.type},
+    "ServiceNow Reference": ${current.number},
+    "Impact": ${current.impact},
+    "Urgency": ${current.priority},
+    "Urgency Justification": ${current.justification},
+    "Risk Assessment": ${current.risk},
+    "Risk Analysis": ${current.risk_impact_analysis},
+    "Impact Assessment": ${current.risk_impact_analysis},
+    "Implementation Plan": ${current.implementation_plan},
+    "Backout plan": ${current.backout_plan},
+    "Communications Plan": ${current.u_communications_plan},
+    "Primary CI": Configuration item: ${current.cmdb_ci},
+    "Impacted Services Cis": ${current.event.parm1},
+    "Requested By": ${current.requested_by},
+    "Requestor Email": ${current.requested_by.email},
+    "Planned start date": ${current.start_date},
+    "Planned end date": ${current.end_date},
+}
