@@ -17,5 +17,5 @@
     "Requested By": ${current.requested_by},
     "Requestor Email": ${current.requested_by.email},
     "Planned start date": ${current.start_date},
-    "Planned end date": ${current.end_date},
+    "Planned end date": ${current.end_date}
 }
