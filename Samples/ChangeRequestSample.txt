@@ -3,6 +3,7 @@
     "Description": ${current.description},
     "Change Type": ${current.type},
     "ServiceNow Reference": ${current.number},
+    "ServiceNow SysID": ${current.sys_id},
     "Impact": ${current.impact},
     "Urgency": ${current.priority},
     "Urgency Justification": ${current.justification},
