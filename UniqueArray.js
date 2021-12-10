@@ -36,6 +36,9 @@ for (var x=0; x < uniqueNames.length; x++){
     var newRec = new GlideRecord('u_certifications');
     newRec.initialize();
     newRec.u_user = userID;
+    if (userID == 0){
+        newRec.u_no_user_found = true;
+    }
     newRec.u_combined = combinedText;
     newRec.u_email = uniqueNames[x];
     newRec.insert();
