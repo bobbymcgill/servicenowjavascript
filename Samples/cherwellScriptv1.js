@@ -44,17 +44,6 @@ gs.info("JSON Obj\n" + JSON.stringify(jsonObj,null,4));
 try { 
     var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
    
-   //override authentication profile 
-   //authentication type ='basic'/ 'oauth2'
-   //r.setAuthenticationProfile(authentication type, profile name);
-   
-   //set a MID server name if one wants to run the message on MID
-   //r.setMIDServer('MY_MID_SERVER');
-   
-   //if the message is configured to communicate through ECC queue, either
-   //by setting a MID server or calling executeAsync, one needs to set skip_sensor
-   //to true. Otherwise, one may get an intermittent error that the response body is null
-   //r.setEccParameter('skip_sensor', true);
    r.setRequestBody(JSON.stringify(jsonObj));
     var response = r.execute();
     var responseBody = response.getBody();
