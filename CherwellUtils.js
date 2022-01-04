@@ -1,6 +1,7 @@
 var CherwellUtils = Class.create();
 CherwellUtils.prototype = {
     initialize: function() {
+        this.ci_count = 0;
     },
 
     getRelatedCI: function(change_sysid){
@@ -20,26 +21,31 @@ CherwellUtils.prototype = {
             arrayCI.push(current.cmdb_ci.getDisplayValue());
         }
         this.logger('List of impacted CIs: ' + arrayCI.toString());
+        this.ci_count = arrayCI.length;
         return arrayCI.toString();
     },
 
     sendREST: function(change_sysid){
         var message = this.buildJSON(change_sysid);
-        this.logger('RequestBody to be sent: ' + message.toString());
-        try { 
-            var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
-           
-           r.setRequestBody(JSON.stringify(message));
-            var response = r.execute();
-            var responseBody = response.getBody();
-            var httpStatus = response.getStatusCode();
-           }
-           catch(ex) {
-            var errorMsg = ex.message;
-           }
-        
-           this.logger('Response Status : ' + httpStatus);
-           this.logger('ResponseBody: ' + responseBody);
+        if (this.ci_count > 0){
+            this.logger('RequestBody to be sent: ' + message.toString());
+            try { 
+                var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
+            
+            r.setRequestBody(JSON.stringify(message));
+                var response = r.execute();
+                var responseBody = response.getBody();
+                var httpStatus = response.getStatusCode();
+            }
+            catch(ex) {
+                var errorMsg = ex.message;
+            }
+            
+            this.logger('Response Status : ' + httpStatus);
+            this.logger('ResponseBody: ' + responseBody);
+        } else {
+            this.logger('No CIs related for Cherwell here.');
+        }
     },
     
     buildJSON: function(change_sysid){
@@ -70,15 +76,15 @@ CherwellUtils.prototype = {
         jsonObj['Planned end date'] =  current.end_date.toString();
 
         this.logger("JSON Obj\n" + JSON.stringify(jsonObj,null,4));
-        return (jsonObj);
+        return jsonObj;
 
     },
 
 	logger: function(msg){
-		var instanceName = gs.getProperty('instance_name');
-		if ((instanceName == 'mckessonqa') || (instanceName == 'mckessontest') || (instanceName == 'mckessondev')){
+		//var instanceName = gs.getProperty('instance_name');
+//		if ((instanceName == 'mckessonqa') || (instanceName == 'mckessontest') || (instanceName == 'mckessondev')){
 			gs.info('CherwellUtils Log: ' + msg);
-		}
+	//	}
 	},
 	
     type: 'CherwellUtils'
