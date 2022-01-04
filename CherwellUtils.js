@@ -25,7 +25,7 @@ CherwellUtils.prototype = {
 
     sendREST: function(change_sysid){
         var message = this.buildJSON(change_sysid);
-
+        this.logger('RequestBody to be sent: ' + message.toString());
         try { 
             var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
            
@@ -70,7 +70,7 @@ CherwellUtils.prototype = {
         jsonObj['Planned end date'] =  current.end_date.toString();
 
         this.logger("JSON Obj\n" + JSON.stringify(jsonObj,null,4));
-        return JSON.stringify(jsonObj);
+        return (jsonObj);
 
     },
 
