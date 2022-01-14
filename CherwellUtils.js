@@ -82,11 +82,20 @@ CherwellUtils.prototype = {
                 jsonObj['Planned end date'] =  current.end_date.toString();
                 break;
             case 'update':
-                json 
+                jsonObj['Work Notes'] = current.work_notes;
+                break;
         }
         this.logger("JSON Obj\n" + JSON.stringify(jsonObj,null,4));
         return jsonObj;
 
+    },
+
+    getChanges(sys_id){
+        var current = new GlideRecord('change_request');
+        current.get(change_sysid);
+        var gru = GlideScriptRecordUtil.get(current);
+        var changes = gru.getChanges();
+        this.logger(changes.toString());
     },
 
 	logger: function(msg){
