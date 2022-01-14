@@ -90,7 +90,7 @@ CherwellUtils.prototype = {
 
     },
 
-    getChanges(sys_id){
+    getChanges: function(sys_id){
         var current = new GlideRecord('change_request');
         current.get(change_sysid);
         var gru = GlideScriptRecordUtil.get(current);
