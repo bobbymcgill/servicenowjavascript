@@ -115,7 +115,7 @@ CherwellUtils.prototype = {
     },
 
     updateChange: function(sys_id){
-        var arrayCI = this.getRelatedCI(change_sysid);
+        var arrayCI = this.getRelatedCI(sys_id);
         if (this.ci_count > 0){
             var changes = this.getChanges(sys_id);
             this.sendREST('update',changes);
