@@ -107,7 +107,7 @@ CherwellUtils.prototype = {
     },
 
     createChange: function(sys_id){
-        var arrayCI = this.getRelatedCI(change_sysid);
+        var arrayCI = this.getRelatedCI(sysi_d);
         if (this.ci_count > 0){
             var jsonObj = this.buildJSON(sys_id, arrayCI);
             this.sendREST('create', jsonObj);
