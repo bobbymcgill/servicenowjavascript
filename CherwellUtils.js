@@ -26,7 +26,7 @@ CherwellUtils.prototype = {
     },
 
     sendREST: function(change_sysid, eventType){
-        var message = this.buildJSON(change_sysid, eventType);
+        //var message = this.buildJSON(change_sysid, eventType);
         if (this.ci_count > 0){
             this.logger('RequestBody to be sent: ' + message.toString());
             try { 
@@ -88,9 +88,22 @@ CherwellUtils.prototype = {
         current.get(sys_id);
         var gru = GlideScriptRecordUtil.get(current);
         var changes = gru.getChanges();
-        var notes = current.work_notes.getJournalEntry(1); 
-        var jsonObj = {};
+        //var notes = current.work_notes.getJournalEntry(1); 
         
+        var jsonObj = {};
+        var gru = GlideScriptRecordUtil.get(current);
+        var changedFields = gru.getChangedFields(); //Get changed fields with friendly names
+        var changedValues = gru.getChanges(); //Get changed field values
+        //Convert to JavaScript Arrays
+        gs.include('j2js');
+        changedFields = j2js(changedFields);
+        changedValues = j2js(changedValues);
+        var jsonChanges = {};
+        for(var x=0; x < changedFields.length; x++){
+            jsonChanges[changedFields[x]] = changedValues[x];
+            
+        }
+        return jsonObj;
         this.logger(changes.toString());
     },
 
