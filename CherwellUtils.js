@@ -26,6 +26,8 @@ CherwellUtils.prototype = {
     },
 
     sendREST: function(eventType, message){
+        this.logger('eventType: ' + eventType);
+        this.logger('message: ' + message);
         try { 
             var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
             if(eventType == 'update'){
@@ -84,11 +86,7 @@ CherwellUtils.prototype = {
         var current = new GlideRecord('change_request');
         current.get(sys_id);
         var gru = GlideScriptRecordUtil.get(current);
-        var updates = gru.getChanges();
-        //var notes = current.work_notes.getJournalEntry(1); 
         
-        var jsonObj = {};
-        var gru = GlideScriptRecordUtil.get(current);
         var changedFields = gru.getChangedFields(); //Get changed fields with friendly names
         var changedValues = gru.getChanges(); //Get changed field values
         //Convert to JavaScript Arrays
@@ -101,8 +99,8 @@ CherwellUtils.prototype = {
             
         }
         
-        this.logger(updates.toString());
-        return jsonObj;
+        this.logger(jsonChanges.toString());
+        return jsonChanges;
 
     },
 
