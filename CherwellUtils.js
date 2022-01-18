@@ -25,27 +25,24 @@ CherwellUtils.prototype = {
         return arrayCI.toString();
     },
 
-    sendREST: function(change_sysid, eventType){
-        //var message = this.buildJSON(change_sysid, eventType);
-        if (this.ci_count > 0){
-            this.logger('RequestBody to be sent: ' + message.toString());
-            try { 
-                var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
-            
+    sendREST: function(eventType, message){
+        try { 
+            var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
+            if(eventType == 'update'){
+                r.setEndPoint('https://sol000910.solari.cloud/cherwellsnow/api/table/snow_update_change');
+            }
             r.setRequestBody(JSON.stringify(message));
-                var response = r.execute();
-                var responseBody = response.getBody();
-                var httpStatus = response.getStatusCode();
-            }
-            catch(ex) {
-                var errorMsg = ex.message;
-            }
-            
-            this.logger('Response Status : ' + httpStatus);
-            this.logger('ResponseBody: ' + responseBody);
-        } else {
-            this.logger('No CIs related for Cherwell here.');
+            var response = r.execute();
+            var responseBody = response.getBody();
+            var httpStatus = response.getStatusCode();
         }
+        catch(ex) {
+            var errorMsg = ex.message;
+        }
+        
+        this.logger('Response Status : ' + httpStatus);
+        this.logger('ResponseBody: ' + responseBody);
+        
     },
     
     buildJSON: function(change_sysid, arrayCI){
@@ -103,17 +100,26 @@ CherwellUtils.prototype = {
             jsonChanges[changedFields[x]] = changedValues[x];
             
         }
-        return jsonObj;
+        
         this.logger(changes.toString());
+        return jsonObj;
+
     },
 
     createChange: function(sys_id){
         var arrayCI = this.getRelatedCI(change_sysid);
-        var jsonObj = this.buildJSON(sys_id, arrayCI);
+        if (this.ci_count > 0){
+            var jsonObj = this.buildJSON(sys_id, arrayCI);
+            this.sendREST('create', jsonObj);
+        }
     },
 
     updateChange: function(sys_id){
-
+        var arrayCI = this.getRelatedCI(change_sysid);
+        if (this.ci_count > 0){
+            var changes = this.getChanges(sys_id);
+            this.sendREST('update',changes);
+        }
 
     },
 
