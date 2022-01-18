@@ -85,6 +85,7 @@ CherwellUtils.prototype = {
     getUpdates: function(sys_id){
         var current = new GlideRecord('change_request');
         current.get(sys_id);
+        
         var gru = GlideScriptRecordUtil.get(current);
         
         var changedFields = gru.getChangedFields(); //Get changed fields with friendly names
@@ -112,10 +113,10 @@ CherwellUtils.prototype = {
         }
     },
 
-    updateChange: function(sys_id){
+    updateChange: function(sys_id, updates){
         var arrayCI = this.getRelatedCI(sys_id);
         if (this.ci_count > 0){
-            var updates = this.getUpdates(sys_id);
+            //var updates = this.getUpdates(sys_id);
             this.sendREST('update',updates);
         }
 
