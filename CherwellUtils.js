@@ -48,43 +48,36 @@ CherwellUtils.prototype = {
         }
     },
     
-    buildJSON: function(change_sysid, eventType){
+    buildJSON: function(change_sysid, arrayCI){
         var jsonObj = {};
         var current = new GlideRecord('change_request');
         current.get(change_sysid);
         
-        switch (eventType){
+        jsonObj['Title'] =  current.short_description.toString();
+        jsonObj['Description'] =  current.description.toString();
+        jsonObj['Change Type'] =  current.type.toString();
+        jsonObj['State'] = current.state.getDisplayValue();
+        jsonObj['Category'] = current.category.getDisplayValue();
+        jsonObj['SubCategory'] = current.u_subcategory.getDisplayValue();
+        jsonObj['ServiceNow Reference'] =  current.number.toString();
+        jsonObj['ServiceNow SysID'] =  current.sys_id.toString();
+        jsonObj['Impact'] =  current.impact.getDisplayValue();
+        jsonObj['Urgency'] =  current.priority.getDisplayValue();
+        jsonObj['Urgency Justification'] =  current.justification.toString();
+        jsonObj['Risk Assessment'] =  current.risk.getDisplayValue();
+        jsonObj['Risk Analysis'] =  current.risk_impact_analysis.toString();
+        jsonObj['Impact Assessment'] =  current.risk_impact_analysis.toString();
+        jsonObj['Implementation Plan'] =  current.implementation_plan.toString();
+        jsonObj['Backout plan'] =  current.backout_plan.toString();
+        jsonObj['Communications Plan'] =  current.u_communications_plan.toString();
+        jsonObj['Primary CI: Configuration item'] =  current.cmdb_ci.getDisplayValue();
+        jsonObj['Impacted Services CIs'] =  arrayCI.toString();
+        jsonObj['Requested By'] =  current.requested_by.getDisplayValue();
+        jsonObj['Requestor Email'] =  current.requested_by.email.toString();
+        jsonObj['Planned start date'] =  current.start_date.toString();
+        jsonObj['Planned end date'] =  current.end_date.toString();
         
-            case 'create':
-                var arrayCI = this.getRelatedCI(change_sysid);
-                jsonObj['Title'] =  current.short_description.toString();
-                jsonObj['Description'] =  current.description.toString();
-                jsonObj['Change Type'] =  current.type.toString();
-                jsonObj['State'] = current.state.getDisplayValue();
-                jsonObj['Category'] = current.category.getDisplayValue();
-                jsonObj['SubCategory'] = current.u_subcategory.getDisplayValue();
-                jsonObj['ServiceNow Reference'] =  current.number.toString();
-                jsonObj['ServiceNow SysID'] =  current.sys_id.toString();
-                jsonObj['Impact'] =  current.impact.getDisplayValue();
-                jsonObj['Urgency'] =  current.priority.getDisplayValue();
-                jsonObj['Urgency Justification'] =  current.justification.toString();
-                jsonObj['Risk Assessment'] =  current.risk.getDisplayValue();
-                jsonObj['Risk Analysis'] =  current.risk_impact_analysis.toString();
-                jsonObj['Impact Assessment'] =  current.risk_impact_analysis.toString();
-                jsonObj['Implementation Plan'] =  current.implementation_plan.toString();
-                jsonObj['Backout plan'] =  current.backout_plan.toString();
-                jsonObj['Communications Plan'] =  current.u_communications_plan.toString();
-                jsonObj['Primary CI: Configuration item'] =  current.cmdb_ci.getDisplayValue();
-                jsonObj['Impacted Services CIs'] =  arrayCI.toString();
-                jsonObj['Requested By'] =  current.requested_by.getDisplayValue();
-                jsonObj['Requestor Email'] =  current.requested_by.email.toString();
-                jsonObj['Planned start date'] =  current.start_date.toString();
-                jsonObj['Planned end date'] =  current.end_date.toString();
-                break;
-            case 'update':
-                jsonObj['Work Notes'] = current.work_notes;
-                break;
-        }
+
         this.logger("JSON Obj\n" + JSON.stringify(jsonObj,null,4));
         return jsonObj;
 
@@ -95,7 +88,20 @@ CherwellUtils.prototype = {
         current.get(sys_id);
         var gru = GlideScriptRecordUtil.get(current);
         var changes = gru.getChanges();
+        var notes = current.work_notes.getJournalEntry(1); 
+        var jsonObj = {};
+        
         this.logger(changes.toString());
+    },
+
+    createChange: function(sys_id){
+        var arrayCI = this.getRelatedCI(change_sysid);
+        var jsonObj = this.buildJSON(sys_id, arrayCI);
+    },
+
+    updateChange: function(sys_id){
+
+
     },
 
 	logger: function(msg){
