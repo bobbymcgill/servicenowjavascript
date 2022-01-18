@@ -27,7 +27,7 @@ CherwellUtils.prototype = {
 
     sendREST: function(eventType, message){
         this.logger('eventType: ' + eventType);
-        this.logger('message: ' + message);
+        this.logger('message: ' + JSON.stringify(message,null,4));
         try { 
             var r = new sn_ws.RESTMessageV2('CherwellTest', 'CreateChange');
             if(eventType == 'update'){
@@ -113,10 +113,10 @@ CherwellUtils.prototype = {
         }
     },
 
-    updateChange: function(sys_id, updates){
+    updateChange: function(sys_id){
         var arrayCI = this.getRelatedCI(sys_id);
         if (this.ci_count > 0){
-            //var updates = this.getUpdates(sys_id);
+            var updates = this.getUpdates(sys_id);
             this.sendREST('update',updates);
         }
 
