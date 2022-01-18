@@ -80,11 +80,11 @@ CherwellUtils.prototype = {
 
     },
 
-    getChanges: function(sys_id){
+    getUpdates: function(sys_id){
         var current = new GlideRecord('change_request');
         current.get(sys_id);
         var gru = GlideScriptRecordUtil.get(current);
-        var changes = gru.getChanges();
+        var updates = gru.getChanges();
         //var notes = current.work_notes.getJournalEntry(1); 
         
         var jsonObj = {};
@@ -101,7 +101,7 @@ CherwellUtils.prototype = {
             
         }
         
-        this.logger(changes.toString());
+        this.logger(updates.toString());
         return jsonObj;
 
     },
@@ -117,8 +117,8 @@ CherwellUtils.prototype = {
     updateChange: function(sys_id){
         var arrayCI = this.getRelatedCI(sys_id);
         if (this.ci_count > 0){
-            var changes = this.getChanges(sys_id);
-            this.sendREST('update',changes);
+            var updates = this.getUpdates(sys_id);
+            this.sendREST('update',updates);
         }
 
     },
