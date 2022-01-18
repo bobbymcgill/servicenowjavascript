@@ -99,7 +99,7 @@ CherwellUtils.prototype = {
             
         }
         
-        this.logger(jsonChanges.toString());
+        this.logger('Fields changed: ' + JSON.stringify(jsonChanges,null,4)));
         return jsonChanges;
 
     },
