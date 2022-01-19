@@ -31,14 +31,14 @@ CherwellUtilities.prototype = {
 		var cherwellapi = '';
         try { 
 			var r = new sn_ws.RESTMessageV2();
-			r.setMethod("post");
+			r.setHTTPMethod("post");
 			r.setAuthenticationProfile('basic', '3b2bf948879805105bf020e9cebb355c');
 			if(eventType == 'update'){
-				cherwellapi = 'https://sol000910.solari.cloud/cherwellsnow/api/table/snow_update_change';
+				cherwellapi = "https://sol000910.solari.cloud/cherwellsnow/api/table/snow_update_change";
 				this.logger('cherwellapi set to: ' + cherwellapi);
 			}
 			if(eventType == 'create'){
-				cherwellapi = 'https://sol000910.solari.cloud/cherwellsnow/api/table/snow_create_change';
+				cherwellapi = "https://sol000910.solari.cloud/cherwellsnow/api/table/snow_create_change";
 				this.logger('cherwellapi set to: ' + cherwellapi);
 			}
 			r.setEndpoint(cherwellapi);
