@@ -2,6 +2,10 @@ var CherwellUtilities = Class.create();
 CherwellUtilities.prototype = {
     initialize: function() {
 		this.ci_count = 0;
+		this.DEBUG = true;
+		if (gs.getProperty('instance_name')=='mckesson'){
+			this.DEBUG = false;
+		}
     },
 
     getRelatedCI: function(change_sysid){
@@ -30,22 +34,18 @@ CherwellUtilities.prototype = {
         this.logger('message: ' + JSON.stringify(message,null,4));
 		var cherwellapi = '';
         try { 
-			var r = new sn_ws.RESTMessageV2();
-			r.setHTTPMethod("post");
-			r.setAuthenticationProfile('basic', '3b2bf948879805105bf020e9cebb355c');
+			
 			if(eventType == 'update'){
-				cherwellapi = "https://sol000910.solari.cloud/cherwellsnow/api/table/snow_update_change";
-				this.logger('cherwellapi set to: ' + cherwellapi);
+				var r = new sn_ws.RESTMessageV2('CherwellTest','UpdateChange');
+				this.logger('Running UpdateChange REST Call');
 			}
 			if(eventType == 'create'){
-				cherwellapi = "https://sol000910.solari.cloud/cherwellsnow/api/table/snow_create_change";
-				this.logger('cherwellapi set to: ' + cherwellapi);
+				var r = new sn_ws.RESTMessageV2('CherwellTest','CreateChange');
+				this.logger('Running CreateChange REST Call');
 			}
-			r.setEndpoint(cherwellapi);
-			r.setRequestBody(JSON.stringify(message));
-
-			var response = r.execute();
 			
+			r.setRequestBody(JSON.stringify(message));
+			var response = r.execute();
 			var responseBody = response.getBody();
 			var httpStatus = response.getStatusCode();
 		} catch(ex) {
@@ -111,9 +111,8 @@ CherwellUtilities.prototype = {
     },
 
 	logger: function(msg){
-		var instanceName = gs.getProperty('instance_name');
-		if ((instanceName == 'mckessonqa') || (instanceName == 'mckessontest') || (instanceName == 'mckessondev')){
-			gs.info('y Log: ' + msg);
+		if (this.DEBUG == true){
+			gs.info('CherwellUtils Log: ' + msg);
 		}
 	},
 	
