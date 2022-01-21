@@ -45,7 +45,7 @@ CherwellUtilities.prototype = {
 			}
 			
 			r.setRequestBody(JSON.stringify(message));
-			var response = r.execute();
+			var response = r.executeAsync();
 			var responseBody = response.getBody();
 			var httpStatus = response.getStatusCode();
 		} catch(ex) {
