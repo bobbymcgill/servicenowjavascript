@@ -26,7 +26,7 @@ function cancelResponse(response){
 		if (answer == "Success"){
 			alert('Request Canceled Successfully');
 		} else {
-			alert('There was a problem cancelling this request. Please contact ServiceNow admins');
+			alert('There was a problem cancelling this request. Please contact ServiceNow admins\n\nError Message: \n' + answer);
 		}
 	}
 }
@@ -43,6 +43,18 @@ CancelRequest.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 		this.logger('Item to Cancel: ' + reqItem);
 		var appr = new GlideRecord('sysapproval_approver');
 		try{
+			this.logger('starting to cancel flow');
+			var flow = new GlideRecord('sys_flow_context');
+			flow.addQuery('source_record',reqItem);
+			flow.query();
+			while(flow.next()){
+				this.logger(flow.state.getDisplayValue());
+				//CANCELLED is state 
+				flow.state = 'CANCELLED';
+				flow.update();
+				this.logger('Flow Canceled: ' + flow.sys_id.getDisplayValue());
+			}
+			
 			appr.addQuery('sysapproval',reqItem);
 			appr.query();
 			while(appr.next()){
@@ -66,29 +78,30 @@ CancelRequest.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 			this.logger('Cancelling request and requested items');
 			var requestedItem = new GlideRecord('sc_req_item');
 			requestedItem.get(reqItem);
-			var request = new GlideRecord('sc_request');
-			request.get(requestedItem.request);
-			request.stage = 'closed_incomplete';
-			request.request_state = 'closed_cancelled';
-			requestedItem.state = 8;
+			
+			requestedItem.state = 7;
 			requestedItem.stage = 'Request Cancelled';
 			requestedItem.work_notes = 'Request canceled by user';
 			requestedItem.update();
-			request.update();
-			this.logger('Canceled Request: ' + request.number);
+			var itemList = new GlideRecord('sc_req_item');
+			itemList.addQuery('request',reqItem);
+			itemList.query();
+			if (itemList.getRowCount() < 2){
+				var request = new GlideRecord('sc_request');
+				request.get(requestedItem.request);
+				request.stage = 'closed_incomplete';
+				request.request_state = 'closed_cancelled';
+				request.update();
+				this.logger('Canceled Request: ' + request.number);
+			}	else {
+				this.logger('Cannot cancel parent request. Multiple RITMS on REQ:' + reqItem.request);
+				return 'Cannot cancel parent request. Multiple RITMS on REQ:' + reqItem.request;
+				
+			}
+			
 			this.logger('Cancelled Requested Item: ' + requestedItem.number);
 			
-			this.logger('starting to cancel flow');
-			var flow = new GlideRecord('sys_flow_context');
-			flow.addQuery('source_record',reqItem);
-			flow.query();
-			while(flow.next()){
-				this.logger(flow.state.getDisplayValue());
-				//CANCELLED is state 
-				flow.state = 'CANCELLED';
-				flow.update();
-				this.logger('Flow Canceled: ' + flow.sys_id.getDisplayValue());
-			}
+			
 			
 		} catch(err){
 			gs.info('REQ ITEM Cancellation: ' + err);
