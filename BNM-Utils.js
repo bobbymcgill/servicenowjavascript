@@ -7,7 +7,7 @@
      * @returns                     N/A
      */    
 	clearTables: function(tableList){
-		for(var x = 0; x &lt; tableList.length; x++){
+		for(var x = 0; x<; tableList.length; x++){
 			var tableName = tableList[x];
 			try{
 				var gr = new GlideRecord(tableName);
