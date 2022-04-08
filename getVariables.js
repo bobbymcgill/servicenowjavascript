@@ -17,6 +17,8 @@ function getVariables(reqItemNum){
 		if((varVal.value != '') && (varType != 'Reference') && (varType != 'Requested For') && (varType != 'List Collector')){
 			gs.info('--Variable: ' + varVal.item_option_new.getDisplayValue());
 			gs.info('---Value: ' + varVal.value.getDisplayValue());
+			gs.info('---Type: ' + varType);
+			gs.info('---SysID: ' + varVal.sys_id.toString());
 			//gs.info('---Field Type: ' + varVal.item_option_new.type.getDisplayValue());
 			gs.info('');
 		}
