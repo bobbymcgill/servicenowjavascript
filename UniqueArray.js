@@ -26,7 +26,7 @@ for (var x=0; x < uniqueNames.length; x++){
     gr.query();
     while(gr.next()){
         combinedText += gr.u_individual;
-        combinedText += '\n------\n';
+        combinedText += '------';
     }
     var newRec = new GlideRecord('u_certifications');
     
