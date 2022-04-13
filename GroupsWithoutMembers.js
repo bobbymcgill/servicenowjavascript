@@ -18,5 +18,6 @@ function findEmptyGroups() {
             }
         }
     }
+    gs.print('Number of groups without members: ' + myGroups.length);
     gs.print(myGroups);
 }
