@@ -46,7 +46,15 @@
                         var mrvs = new GlideRecord('sc_multi_row_question_answer');
                         mrvs.addQuery('parent_id',gr.sys_id);
                         mrvs.query();
-                        
+                        while (mrvs.next()) {
+							var test = mrvs.item_option_new.getValue();
+							var varVal = new GlideRecord('item_option_new');
+							varVal.get(test);
+							var get_value = new GlideRecord(varVal.reference);
+							get_value.get(mrvs.value);
+							gs.print('	' + varVal.question_text + ': ' + get_value.getDisplayValue() + '\n');
+						
+						}
                     }
 				}
 			}
