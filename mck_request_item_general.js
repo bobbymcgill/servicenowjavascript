@@ -52,7 +52,7 @@
 							varVal.get(test);
 							var get_value = new GlideRecord(varVal.reference);
 							get_value.get(mrvs.value);
-							gs.print('	' + varVal.question_text + ': ' + get_value.getDisplayValue() + '\n');
+							template.print('	' + varVal.question_text + ': ' + get_value.getDisplayValue() + '\n');
 						
 						}
                     }
