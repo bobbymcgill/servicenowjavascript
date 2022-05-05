@@ -1,8 +1,8 @@
-executeReset();
-//this will execute the workflow reset with the error message and make the state as new
-function executeReset() {
-//     new Workflow().cancel(current);
-//     new WorkflowApprovalUtils().cancelAll(current, comment);
+function executeReset(currentSysID, table) {
+//Pass in sysID of record and table to reset
+//This is code from the ChangeRequest "Reset" action
+    var current = new GlideRecord(table);
+    current.get(currentSysID);
 	new ChangeRequestStateHandler(current).disassociateApprovalsFromWorkflow();
     current.state = -5;
 	current.start_date = '';
