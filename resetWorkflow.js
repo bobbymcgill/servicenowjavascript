@@ -7,6 +7,7 @@ function executeReset() {
     current.state = -5;
 	current.start_date = '';
 	current.end_date = '';
+    current.work_notes = 'Change was reset';
     current.update();
 	new Workflow().restartWorkflow(current,true);
     action.setRedirectURL(current);
