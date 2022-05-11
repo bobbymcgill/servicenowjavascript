@@ -13,3 +13,13 @@ function executeReset(currentSysID, table) {
     action.setRedirectURL(current);
     gs.addInfoMessage("This Change Request has been reset to New state.");
 }
+
+
+
+/*https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB0829929
+
+new Workflow().cancel(current); 
+new WorkflowApprovalUtils().cancelAll(current, comment); 
+new Workflow().restartWorkflow(current);
+
+*/
