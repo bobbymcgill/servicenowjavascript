@@ -1,0 +1,13 @@
+function userUpdate(sys_id, emp_num){
+	var gr = new GlideRecord('sys_user');
+	gr.get(sys_id);
+	gs.print('Name: ' + gr.name);
+	if (gr.employee_number == ''){
+		gr.employee_number = emp_num;
+		gr.update();
+	} else {
+		gs.print('Employee already has Number!');
+	}
+}
+
+userUpdate('57fd1662970c9554097d3d600153afb4',256029);
