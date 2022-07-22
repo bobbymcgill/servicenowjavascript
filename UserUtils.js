@@ -73,7 +73,16 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 
     },
 	
-	updateGroups: function(oldID, newID) { 
+	updateAll: function(oldID,newID) {
+		this.updateGroupMember(oldID,newID);
+		this.updateGroupManager(oldID,newID);
+		this.updateUserManager(oldID,newID);
+		this.updateTasks(oldID,newID);
+		this.updateApprovals(oldID,newID);
+		this.updateCMDB(oldID,newID);
+	},
+	
+	updateGroupMember: function(oldID, newID) { 
 		// oldID should be inactive record, newID should be active record
 		// sys_user_grmember has ACLs disallowing direct edits - so we can't use previsously defined function- we must first delete the record, then create a new record
 		var qry = 'user=' + oldID;
@@ -90,6 +99,48 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 			grplist.deleteRecord();
 		}
 		
+	},
+	
+	updateGroupManager: function(oldID,newID){
+		//oldID is inactive user record
+		//newID is active user record
+		var qry = 'manager=' + oldID;
+		this.updateRecs(qry,'sys_user_group','manager',newID);
+	},
+	
+	updateUserManager: function(oldID,newID){
+		// oldID is the inactive user record
+		// newID is the active record
+		var qry = 'active=true^manager=' + oldID;
+		this.updateRecs(qry,'sys_user','manager',newID);
+	},
+	
+	updateTasks: function(oldID, newID){
+		// oldID is the inactive user record
+		// newID is the active user record
+		// table TASK is used because all Incidents, Problems, Changes, and various SC Tasks, Change Tasks - are all children of TASK
+		var qry = 'active=true^assigned_to=' + oldID;
+		this.updateRecs(qry,'task','assigned_to',newID);
+		
+	},
+	
+	updateCMDB: function(oldID, newID){
+		// oldID is inactive user record
+		// newID is active user record
+		var qry = 'owned_by=' + oldID;
+		this.updateRecs(qry,'cmdb_ci','owned_by',newID);
+		
+		var qry1 = 'assigned_to=' + oldID;
+		this.updateRecs(qry1,'cmdb_ci','assigned_to',newID);
+		
+	},
+	
+	updateApprovals: function(oldID, newID){
+		//oldID is inactive user
+		//newID is active
+		// only want approvals in the "requested" state
+		var qry = 'state=requested^approver=' + oldID;
+		this.updateRecs(qry,'sysapproval_approver','approver',newID);
 	},
 	
     logger: function(msg) {
