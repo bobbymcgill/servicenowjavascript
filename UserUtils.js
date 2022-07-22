@@ -89,7 +89,7 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 			newGrp.insert();
 			grplist.deleteRecord();
 		}
-		this.updateRecs(qry,'sys_user_grmember','user',newID);
+		
 	},
 	
     logger: function(msg) {
