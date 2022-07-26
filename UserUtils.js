@@ -35,7 +35,7 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
     },
 
     updateAll: function(oldID, newID){
-        this.updateUserManager(oldId, newID);
+        this.updateUserManager(oldID, newID);
         this.updateTasks(oldID, newID);
         this.updateGroupManager(oldID, newID);
         this.updateGroupMember(oldID, newID);
@@ -45,7 +45,7 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
     },
 
     setUserInactive: function(oldID){
-        var gr = new GlideRecor('sys_user');
+        var gr = new GlideRecord('sys_user');
         gr.get(oldID);
         gr.active = false;
         gr.update();
