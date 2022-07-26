@@ -73,15 +73,6 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 
     },
 	
-	updateAll: function(oldID,newID) {
-		this.updateGroupMember(oldID,newID);
-		this.updateGroupManager(oldID,newID);
-		this.updateUserManager(oldID,newID);
-		this.updateTasks(oldID,newID);
-		this.updateApprovals(oldID,newID);
-		this.updateCMDB(oldID,newID);
-	},
-	
 	updateGroupMember: function(oldID, newID) { 
 		// oldID should be inactive record, newID should be active record
 		// sys_user_grmember has ACLs disallowing direct edits - so we can't use previsously defined function- we must first delete the record, then create a new record
