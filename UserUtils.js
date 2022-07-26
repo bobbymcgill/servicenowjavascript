@@ -1,5 +1,56 @@
 var UserUtils = Class.create();
 UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+
+    processUserTable: function(){
+        var dupeList = this.dupeUsers();
+		//this.logger(dupeList.toString());
+        //for(var x=0; x < dupeList.length; x++){ // for PROD - uncomment this line 
+        for(var x=0; x < 10; x++){ // for testing limit to 10 users at a time
+            var newID = ''; // this will be the sysID for the user we want to stay active
+            var oldID = ''; // this will be the sysID for the inactive user
+            var temp1 = []; // will store sysIDs in this list
+            var gr = new GlideRecord('sys_user');
+            gr.addQuery('employee_number',dupeList[x]);
+			//this.logger('Current employee_number: ' + dupeList[x]);
+            gr.query();
+            while(gr.next()){
+				//this.logger('Current sysID: ' + gr.getValue('sys_id'));
+                temp1.push(gr.getValue('sys_id'));
+            }
+            this.logger('List of sys_ids: ' + temp1.toString());
+            if (temp1.length < 3){
+                newID = this.lastLoginActive(temp1[0],temp1[1]); // Determine which ID will be used for active
+                if (temp1[0] == newID){ // if the return value is equal to the first element - then the other element is oldID
+                    oldID = temp1[1];
+                } else {
+                    oldID = temp1[0];
+                }
+            } else {
+                this.logger('Too many active Accovunts - Employee ID: ' + dupeList[x] );
+            }
+            this.logger('Active sysid is: ' + newID);
+            this.updateAll(oldId, newID);
+            
+        }
+    },
+
+    updateAll: function(oldID, newID){
+        this.updateUserManager(oldId, newID);
+        this.updateTasks(oldID, newID);
+        this.updateGroupManager(oldID, newID);
+        this.updateGroupMember(oldID, newID);
+        this.updateTasks(oldID, newID);
+        this.updateApprovals(oldID, newID);
+        this.setUserInactive(oldID);
+    },
+
+    setUserInactive(oldID){
+        var gr = new GlideRecor('sys_user');
+        gr.get(oldID);
+        gr.active = false;
+        gr.update();
+    },
+
     updateRecs: function(qryStr, table, field, newVal) {
         // Generic utility for moving records related to user to new user
         // qryStr = Encoded query with sysID of OLD/Inactivated User in appropriate field
@@ -68,7 +119,8 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
             //gs.print(gr.employee_number);
             str.push(gr.getValue('employee_number')); //add the employee number to the list.
         }
-        return str.toString();
+        //return str.toString();
+		return str;
         //gs.print(str.toString());
 
     },
