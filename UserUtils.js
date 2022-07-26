@@ -29,7 +29,7 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
                 this.logger('Too many active Accovunts - Employee ID: ' + dupeList[x] );
             }
             this.logger('Active sysid is: ' + newID);
-            this.updateAll(oldId, newID);
+            this.updateAll(oldID, newID);
             
         }
     },
