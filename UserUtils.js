@@ -44,7 +44,7 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
         this.setUserInactive(oldID);
     },
 
-    setUserInactive(oldID){
+    setUserInactive: function(oldID){
         var gr = new GlideRecor('sys_user');
         gr.get(oldID);
         gr.active = false;
