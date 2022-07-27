@@ -4,13 +4,14 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
     processUserTable: function(){
         var dupeList = this.dupeUsers();
 		//this.logger(dupeList.toString());
-        //for(var x=0; x < dupeList.length; x++){ // for PROD - uncomment this line 
-        for(var x=0; x < 10; x++){ // for testing limit to 10 users at a time
+        for(var x=0; x < dupeList.length; x++){ // for PROD - uncomment this line 
+        //for(var x=0; x < 5; x++){ // for testing limit to 10 users at a time
             var newID = ''; // this will be the sysID for the user we want to stay active
             var oldID = ''; // this will be the sysID for the inactive user
             var temp1 = []; // will store sysIDs in this list
             var gr = new GlideRecord('sys_user');
             gr.addQuery('employee_number',dupeList[x]);
+			gr.addQuery('active','true');
 			//this.logger('Current employee_number: ' + dupeList[x]);
             gr.query();
             while(gr.next()){
