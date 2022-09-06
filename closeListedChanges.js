@@ -1,16 +1,10 @@
-var chgList = ['CHG0102344', 'CHG0104791', 'CHG0100639', 'CHG0093332', 'CHG0091462', 'CHG0084648', 'CHG0101751', 'CHG0071420', 'CHG0112612', 'CHG0112043', 'CHG0104670', 'CHG0104656', 'CHG0098763', 'CHG0098744', 'CHG0082730', 'CHG0082726', 'CHG0082711', 'CHG0063225', 'CHG0054376', 'CHG0086110', 'CHG0100863', 'CHG0100805', 'CHG0099322', 'CHG0114395', 'CHG0113367', 'CHG0112806', 'CHG0112723', 'CHG0110030', 'CHG0109497', 'CHG0120072'];
+var chgList = ['CHG0125119','CHG0125085','CHG0124168','CHG0124165','CHG0124155','CHG0127697','CHG0123804','CHG0127607','CHG0127525','CHG0122205','CHG0122188','CHG0117788','CHG0127851','CHG0125877','CHG0125870','CHG0120672','CHG0120369','CHG0124034','CHG0126070','CHG0119378','CHG0119816','CHG0117673','CHG0128506','CHG0126399','CHG0125209','CHG0124592','CHG0124443','CHG0123531','CHG0123052','CHG0122815','CHG0122226','CHG0121349','CHG0121326','CHG0119569','CHG0127800','CHG0126607','CHG0118102','CHG0124979','CHG0124358','CHG0122547','CHG0122356','CHG0121919','CHG0121557','CHG0117490','CHG0122390','CHG0127212','CHG0125198','CHG0117769','CHG0117631','CHG0117061'];
 
 for (var x = 0; x < chgList.length; x++){
 	var gr = new GlideRecord('change_request');
 	gr.addQuery('number',chgList[x]);
 	gr.query();
 	while(gr.next()){
-<<<<<<< HEAD
-		//if (gr.state == '-3'){  //Only modifying changes in 'Authorize'
-=======
-//		if (gr.state == '-3'){  //Only modifying changes in 'Authorize'
->>>>>>> 768f0c34788f620e9fb068fec4c3f848cd80e956
-			gs.print('Change: ' + gr.number + ' in Authorize. Checking for tasks.');
 			var ctask = new GlideRecord('change_task'); //Checking for open Change Tasks.
 			ctask.addQuery('change_request',gr.sys_id);
 			ctask.query();
@@ -26,23 +20,24 @@ for (var x = 0; x < chgList.length; x++){
 				gs.print('---No tasks found');
 			}
 			
+			// Cancel any approvals in "requested" state
+			var approval = new GlideRecord('sysapproval_approver');
+			approval.addQuery('state','requested');
+			approval.addQuery('sysapproval',gr.sys_id);
+			approval.query();
+			while(approval.next()){
+				approval.setWorkflow(false);
+				approval.state = 'not_required';
+				approval.update();
+			}
+			
+			
 			gr.close_notes = 'The Change Owner has reviewed the Change and approved it for closure';
 			gr.close_code = 'successful';
 			gr.update(); //First update sets closure info
 			gr.setWorkflow(false); // turn off business rules for the change to get past the Start Date and approvals
 			gr.state = 3; // Set state to closed
 			gr.update();
-<<<<<<< HEAD
-		/*} else {
-			// If state is not in Authorize - print message and continue
-			gs.print('Change: ' + gr.number + ' is in state: ' + gr.state + ' ' + gr.state.getDisplayValue());
-		}
-		*/
-=======
-//		} else {
-//			// If state is not in Authorize - print message and continue
-//			gs.print('Change: ' + gr.number + ' is in state: ' + gr.state + ' ' + gr.state.getDisplayValue());
-//		}
->>>>>>> 768f0c34788f620e9fb068fec4c3f848cd80e956
+
 	}
 }
