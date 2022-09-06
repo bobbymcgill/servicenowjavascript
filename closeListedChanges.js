@@ -5,7 +5,11 @@ for (var x = 0; x < chgList.length; x++){
 	gr.addQuery('number',chgList[x]);
 	gr.query();
 	while(gr.next()){
+<<<<<<< HEAD
+		//if (gr.state == '-3'){  //Only modifying changes in 'Authorize'
+=======
 //		if (gr.state == '-3'){  //Only modifying changes in 'Authorize'
+>>>>>>> 768f0c34788f620e9fb068fec4c3f848cd80e956
 			gs.print('Change: ' + gr.number + ' in Authorize. Checking for tasks.');
 			var ctask = new GlideRecord('change_task'); //Checking for open Change Tasks.
 			ctask.addQuery('change_request',gr.sys_id);
@@ -28,9 +32,17 @@ for (var x = 0; x < chgList.length; x++){
 			gr.setWorkflow(false); // turn off business rules for the change to get past the Start Date and approvals
 			gr.state = 3; // Set state to closed
 			gr.update();
+<<<<<<< HEAD
+		/*} else {
+			// If state is not in Authorize - print message and continue
+			gs.print('Change: ' + gr.number + ' is in state: ' + gr.state + ' ' + gr.state.getDisplayValue());
+		}
+		*/
+=======
 //		} else {
 //			// If state is not in Authorize - print message and continue
 //			gs.print('Change: ' + gr.number + ' is in state: ' + gr.state + ' ' + gr.state.getDisplayValue());
 //		}
+>>>>>>> 768f0c34788f620e9fb068fec4c3f848cd80e956
 	}
 }
