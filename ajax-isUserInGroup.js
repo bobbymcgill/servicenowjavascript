@@ -42,6 +42,26 @@ UserInGroup.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 		}
 		return inGroup;
 	},
+
+	checkGroupSysID: function(){
+		var userid = this.getParameter('sysparm_user');
+		var groups = this.getParameter('sysparm_groups');
+
+		var user = gs.getUser();
+		var newUser = user.getUserByID(userid);
+		
+		var inGroup = 'false';
+		var groupList = groups.split(',');
+		for (var x = 0; x < groupList.length; x++){
+			var gr = new GlideRecord('sys_user_group');
+			gr.get(groupList[x]);
+			//if(newUsers.isMemberOf(groupList[x])){
+			if(newUser.isMemberOf(gr.name)){
+				inGroup = 'true';
+			}
+		}
+		return inGroup;
+	},
 	
     type: 'UserInGroup'
 });
