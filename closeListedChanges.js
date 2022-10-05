@@ -37,6 +37,7 @@ for (var x = 0; x < chgList.length; x++){
 			gr.update(); //First update sets closure info
 			gr.setWorkflow(false); // turn off business rules for the change to get past the Start Date and approvals
 			gr.state = 3; // Set state to closed
+			gr.active = 'false';
 			gr.update();
 
 	}
