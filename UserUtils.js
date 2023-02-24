@@ -6,12 +6,16 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
         // table = whatever table contains the record for the query
         // field = the field name containing the reference (requested_for, manager, owner, etc)
         // newVal = sys_id of the desired active user account
-        var gr = new GlideRecord(table);
-        gr.addEncodedQuery(qryStr);
-        gr.query();
-        while (gr.next()) {
-			gr[field] = newVal;
-            gr.update();
+        try{
+            var gr = new GlideRecord(table);
+            gr.addEncodedQuery(qryStr);
+            gr.query();
+            while (gr.next()) {
+                gr[field] = newVal;
+                gr.update();
+            }
+        } catch(err){
+            this.logger('updateRecs Error: ' + err);
         }
     },
 
@@ -85,53 +89,72 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 	updateGroupMember: function(oldID, newID) { 
 		// oldID should be inactive record, newID should be active record
 		// sys_user_grmember has ACLs disallowing direct edits - so we can't use previsously defined function- we must first delete the record, then create a new record
-		var qry = 'user=' + oldID;
-		this.logger('group query = ' + qry);
-		var grplist = new GlideRecord('sys_user_grmember');
-		grplist.addQuery('user',oldID);
-		grplist.query();
-		while(grplist.next()){
-			var newGrp = new GlideRecord('sys_user_grmember');
-			newGrp.initialize();
-			newGrp.group = grplist.group;
-			newGrp.user = newID;
-			newGrp.insert();
-			grplist.deleteRecord();
-		}
+		try{
+            var qry = 'user=' + oldID;
+            this.logger('group query = ' + qry);
+            var grplist = new GlideRecord('sys_user_grmember');
+            grplist.addQuery('user',oldID);
+            grplist.query();
+            while(grplist.next()){
+                var newGrp = new GlideRecord('sys_user_grmember');
+                newGrp.initialize();
+                newGrp.group = grplist.group;
+                newGrp.user = newID;
+                newGrp.insert();
+                grplist.deleteRecord();
+            }
+        } catch(err){
+            this.logger('Delegate Creation Error: ' + err);
+        }    
 		
 	},
 	
 	updateGroupManager: function(oldID,newID){
 		//oldID is inactive user record
 		//newID is active user record
-		var qry = 'manager=' + oldID;
-		this.updateRecs(qry,'sys_user_group','manager',newID);
+        try{
+            var qry = 'manager=' + oldID;
+            this.updateRecs(qry,'sys_user_group','manager',newID);
+        } catch(err){
+            this.logger('updateGroupManager Error: ' + err);
+        }
 	},
 	
 	updateUserManager: function(oldID,newID){
 		// oldID is the inactive user record
 		// newID is the active record
-		var qry = 'active=true^manager=' + oldID;
-		this.updateRecs(qry,'sys_user','manager',newID);
+        try{
+            var qry = 'active=true^manager=' + oldID;
+            this.updateRecs(qry,'sys_user','manager',newID);
+        } catch(err){
+            this.logger('updateUserManager Error: ' + err);
+        }
 	},
 	
 	updateTasks: function(oldID, newID){
 		// oldID is the inactive user record
 		// newID is the active user record
 		// table TASK is used because all Incidents, Problems, Changes, and various SC Tasks, Change Tasks - are all children of TASK
-		var qry = 'active=true^assigned_to=' + oldID;
-		this.updateRecs(qry,'task','assigned_to',newID);
-		
+        try{
+            var qry = 'active=true^assigned_to=' + oldID;
+            this.updateRecs(qry,'task','assigned_to',newID);
+        } catch(err){
+            this.logger('updateTasks Error: ' + err);
+        }
 	},
 	
 	updateCMDB: function(oldID, newID){
 		// oldID is inactive user record
 		// newID is active user record
-		var qry = 'owned_by=' + oldID;
-		this.updateRecs(qry,'cmdb_ci','owned_by',newID);
-		
-		var qry1 = 'assigned_to=' + oldID;
-		this.updateRecs(qry1,'cmdb_ci','assigned_to',newID);
+		try{
+            var qry = 'owned_by=' + oldID;
+            this.updateRecs(qry,'cmdb_ci','owned_by',newID);
+            
+            var qry1 = 'assigned_to=' + oldID;
+            this.updateRecs(qry1,'cmdb_ci','assigned_to',newID);
+        } catch(err){
+            this.logger('updateCMDB Error: ' + err);
+        }
 		
 	},
 	
@@ -139,8 +162,27 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 		//oldID is inactive user
 		//newID is active
 		// only want approvals in the "requested" state
-		var qry = 'state=requested^approver=' + oldID;
-		this.updateRecs(qry,'sysapproval_approver','approver',newID);
+        // This code segment broke Flow designer. Instead - we will create Delegate record for old account
+		//var qry = 'state=requested^approver=' + oldID;
+		//this.updateRecs(qry,'sysapproval_approver','approver',newID);
+        try{
+            var delegate = new GlideRecord('sys_user_delegate');
+            var today = new GlideDateTime();
+            var expire = new GlideDateTime();
+            expire.addDaysLocalTime(60);
+            delegate.user = oldID;
+            delegate.delegate = newID;
+            delegate.starts = today;
+            delegate.ends = expires;
+            delegate.approvals = true;
+            delegate.assignments = true;
+            delegate.notifications = true;
+            delegate.invitations = true;
+            delegate.insert();
+        } catch(err){
+            this.logger('updateApprovals Error: ' + err);
+        }
+
 	},
 	
     logger: function(msg) {
