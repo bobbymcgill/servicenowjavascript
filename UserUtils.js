@@ -1,5 +1,47 @@
 var UserUtils = Class.create();
 UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+
+    getActiveUser: function(userName){
+        
+
+    },
+
+    deactivateUser: function(sysid){
+        //deactivates the user record given
+        var gr = new GlideRecord('sys_user');
+        gr.get('sysid');
+        gr.active = 'false';
+        gr.update();
+    },
+
+    processRecords: function(){
+        //This is the main function to call to process all records in order.
+        var sysid1 = '';
+        var sysid2 = '';
+        var oldID = '';
+        var newID = '';
+        var dupelist = this.dupeUsers();
+        //for(var x = 0; x ++; x < dupelist.length){
+        for(var x = 0; x ++; x < 10){
+            var gr = new GlideRecord('sys_user');
+            gr.addQuery('employee_number', dupelist[x]);
+            gr.query();
+            var count = 0;
+            while(gr.next()){
+                if (count == 0){
+                    sysid1 = gr.sys_id.toString();
+                }
+                if (count == 1){
+                    sysid2 = gr.sys_id.toString();
+                }
+                count++;
+            }
+            
+
+        }
+
+    },
+
     updateRecs: function(qryStr, table, field, newVal) {
         // Generic utility for moving records related to user to new user
         // qryStr = Encoded query with sysID of OLD/Inactivated User in appropriate field
@@ -84,6 +126,7 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 		this.updateTasks(oldID,newID);
 		this.updateApprovals(oldID,newID);
 		this.updateCMDB(oldID,newID);
+        this.deactivateUser(oldID);
 	},
 	
 	updateGroupMember: function(oldID, newID) { 
@@ -184,6 +227,7 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
         }
 
 	},
+
 	
     logger: function(msg) {
         gs.info('UserUtils Log: ' + msg);
