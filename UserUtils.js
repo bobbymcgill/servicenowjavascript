@@ -1,7 +1,8 @@
 var UserUtils = Class.create();
 UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
 
-    getActiveUser: function(userName){
+    isActiveUser: function(userName){
+
         
 
     },
@@ -28,13 +29,11 @@ UserUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
             gr.query();
             var count = 0;
             while(gr.next()){
-                if (count == 0){
-                    sysid1 = gr.sys_id.toString();
+                if (this.isActiveUser(gr.user_name.getDisplayValue())){
+                    newID = gr.sys_id.toString();
+                } else{
+                    oldID = gr.sys_id.toString();
                 }
-                if (count == 1){
-                    sysid2 = gr.sys_id.toString();
-                }
-                count++;
             }
             
 
