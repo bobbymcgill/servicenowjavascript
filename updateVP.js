@@ -5,7 +5,8 @@ var mgr = new GlideRecord('sys_user');
 var vpTest = new GlideRecord('sys_user');
 var count = 0;
 var vpFound = false;
-user.addEncodedQuery('active=true^user_nameLIKEmckesson.com')
+var title = '';
+user.addEncodedQuery('active=true')
 user.query();
 
 while(user.next()){
@@ -13,7 +14,9 @@ while(user.next()){
 	mgr = user.manager;
 	while (!vpFound && count < 10){ // dont go more than 10 levels
         count++;
-		if (mgr.u_mck_grade == 'M6' || mgr.u_mck_grade == 'E1'){
+		title = mgr.title.toLowerCase();
+		//if (mgr.u_mck_grade == 'M6' || mgr.u_mck_grade == 'E1'){
+		if (title.indexOf('vp') > -1 || title.indexOf('svp') > -1 || title.indexOf('vice') > -1){ 
 			user.u_vice_president = mgr;
 			vpFound = true;
 		} else {
