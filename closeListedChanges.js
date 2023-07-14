@@ -1,4 +1,4 @@
-var chgList = ['CHG0158602'];
+var chgList = ['CHG0031792','CHG0030739'];
 
 for (var x = 0; x < chgList.length; x++){
 	var gr = new GlideRecord('change_request');
