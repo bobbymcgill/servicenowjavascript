@@ -27,3 +27,4 @@
             gs.setProperty(propertyName, propInitialValue); // Setting the value back to the initial value and this also triggers a cache flush
     }
 })();
+//Run during non-peak hours
