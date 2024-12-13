@@ -2,6 +2,7 @@
 var userSysId = 'USER_SYS_ID_HERE'; // Replace with the actual sys_id of the user
 var grantDateTime = '2024-12-14 12:00:00'; // Specify the exact date and time to grant the role (YYYY-MM-DD HH:mm:ss)
 var removeDateTime = '2024-12-14 14:00:00'; // Specify the exact date and time to remove the role (YYYY-MM-DD HH:mm:ss)
+// Use UTC time - not local time.
 
 // Function to schedule a job
 function scheduleJob(jobName, scriptContent, executeAt) {
