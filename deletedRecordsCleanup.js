@@ -1,5 +1,5 @@
 
-var vDaysAgo = 45;
+var vDaysAgo = 120;
 PurgeAuditDeletedRecords(vDaysAgo);
 
 function PurgeAuditDeletedRecords(pDaysAgo) {
