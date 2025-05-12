@@ -1,10 +1,10 @@
-*/
+
 ==============================
 1. onChange Client Script with GlideAjax
 ==============================
 
 Client Script (Type: onChange, Field: priority):
-/*
+
 function onChange(control, oldValue, newValue, isLoading) {
   if (isLoading || newValue !== '1') {
     return;
@@ -20,11 +20,11 @@ function onChange(control, oldValue, newValue, isLoading) {
   });
 }
 
-*/
+
 ---
 
 Script Include (Name: GetAssignmentGroupManager, Client Callable: true):
-/*
+
 var GetAssignmentGroupManager = Class.create();
 GetAssignmentGroupManager.prototype = Object.extendsObject(AbstractAjaxProcessor, {
   getManager: function() {
